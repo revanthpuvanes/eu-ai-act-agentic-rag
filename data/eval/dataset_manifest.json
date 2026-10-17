@@ -1,0 +1,23 @@
+{
+  "dataset_name": "eu-ai-act-rag-benchmark",
+  "dataset_version": "1.0.0",
+  "created_at_utc": "2026-10-17T18:58:00.503555+00:00",
+  "verification_scope": "Source-grounded answer review; not independent legal certification",
+  "question_count": 60,
+  "article_count": 113,
+  "evidence_passage_count": 91,
+  "splits": {
+    "dev": 20,
+    "test": 40
+  },
+  "files": {
+    "data/eval/questions.jsonl": {
+      "sha256": "6012979d24299786bc87effcd60de90c4eb1109712316372f9fa296a7176e0bc",
+      "bytes": 283663
+    },
+    "data/processed/articles.jsonl": {
+      "sha256": "45615860b2408ce6132820aafbc9640b4ac7ad8b35f14959edca2277fae4458f",
+      "bytes": 320800
+    }
+  }
+}
