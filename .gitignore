@@ -1,0 +1,38 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Temporary evaluation exports and backups
+data/eval/evidence_packs/
+data/eval/answers/
+data/eval/*_review.md
+data/eval/review_queue.md
+data/eval/question_batch_*.json
+data/eval/questions.before_*.jsonl
+
+# Raw downloaded source files
+data/raw/
+
+# Local evaluation outputs
+evals/results/
+evals/runs/
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,81 @@
+{
+  "reviewer": "source-grounded-review",
+  "review_scope": "source-grounded answer review",
+  "questions": [
+    {
+      "id": "Q046",
+      "answer_sha256": "4f7f7c6a2c68df74f5946440665283abb6a314d57cbf68905832c78d603b21b4",
+      "decision": "verified"
+    },
+    {
+      "id": "Q047",
+      "answer_sha256": "6e745f75e730c6fdbc8b8853cd79e84342061ac2c238fc54dfc0b8129733ccc1",
+      "decision": "verified"
+    },
+    {
+      "id": "Q048",
+      "answer_sha256": "bfe5554a7dfc9551b4b742545b2c62d5e75001ac3bc17668edbc4e0b871f9338",
+      "decision": "verified"
+    },
+    {
+      "id": "Q049",
+      "answer_sha256": "fbbcc894ecc43d4105e188a86a31cb44974ee39c94a386c8c45dc140967c9ea7",
+      "decision": "verified"
+    },
+    {
+      "id": "Q050",
+      "answer_sha256": "e07c27c0e186c76ff6668db020da1254e579d068a8ddcd9ea49ba238ef354813",
+      "decision": "verified"
+    },
+    {
+      "id": "Q051",
+      "answer_sha256": "3157f9090fb645c71160d3cff54997db884274cbc26e92267ed12c0269658b37",
+      "decision": "verified"
+    },
+    {
+      "id": "Q052",
+      "answer_sha256": "06284ab0ba6a1e38680dd9b700d67a00e6b68276c96791cc814245907349d815",
+      "decision": "verified"
+    },
+    {
+      "id": "Q053",
+      "answer_sha256": "ee279f9f44cefb1fc8f615c885e068356e576fbf82fe72102b20c99f3b4a69f7",
+      "decision": "verified"
+    },
+    {
+      "id": "Q054",
+      "answer_sha256": "6722e9a6aecb093169008492b583e8dd1d1e83ec5c39426134a99129cb582311",
+      "decision": "verified"
+    },
+    {
+      "id": "Q055",
+      "answer_sha256": "1a616af1f7524aa259032886668c3c0a1bbc058a14841d09cc54971bdbd49ae4",
+      "decision": "verified"
+    },
+    {
+      "id": "Q056",
+      "answer_sha256": "91c50a9b4c06cd330a696d7fd1a2f5b509ca8a35fe99d1ef5405a71786b93d93",
+      "decision": "verified"
+    },
+    {
+      "id": "Q057",
+      "answer_sha256": "8383d033362507f3e10714fbb9e7bfa48ce229689c09d7428c6e11b6aa1c23b1",
+      "decision": "verified"
+    },
+    {
+      "id": "Q058",
+      "answer_sha256": "7bec887c812e943bd4a9bff87821b27694e5a4497eaf4a356089bbc02ad2955a",
+      "decision": "verified"
+    },
+    {
+      "id": "Q059",
+      "answer_sha256": "d5056d99328d195407dcbc116c27a1432be02584be22d0d90f60c02ea66953d5",
+      "decision": "verified"
+    },
+    {
+      "id": "Q060",
+      "answer_sha256": "9a543b9e9235ab5251df4728749aa76c527c4bdb8fddc0e2552be66a2791e755",
+      "decision": "verified"
+    }
+  ]
+}
