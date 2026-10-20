@@ -369,6 +369,13 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
+        "--split",
+        choices=("dev", "test"),
+        default="dev",
+        help="Dataset split to benchmark.",
+    )
+
+    parser.add_argument(
         "--limit",
         type=int,
         default=3,
@@ -406,7 +413,7 @@ def main():
         "mistral-small-2603",
     )
 
-    questions = load_questions(split="dev")
+    questions = load_questions(split=args.split)
 
     selected = questions[
         args.start:args.start + args.limit
@@ -435,7 +442,7 @@ def main():
     ).strftime("%Y%m%dT%H%M%SZ")
 
     prefix = output_dir / (
-        f"four_way_dev_{timestamp}"
+        f"four_way_{args.split}_{timestamp}"
     )
 
     jsonl_path = prefix.with_suffix(".jsonl")
