@@ -1,0 +1,169 @@
+{
+  "question_count": 40,
+  "expected_executions": 160,
+  "recorded_executions": 160,
+  "complete_paired_questions": 35,
+  "semantic_answer_quality_evaluated": false,
+  "strategies": {
+    "naive": {
+      "attempts": 40,
+      "successes": 38,
+      "failures": 2,
+      "success_rate": 0.95,
+      "error_categories": {
+        "unsupported_citation": 2
+      },
+      "average_latency_successes": 1.6224,
+      "average_tokens_successes": 1838.1579,
+      "total_reported_tokens_successes": 69850,
+      "executed_actions": {}
+    },
+    "expanded": {
+      "attempts": 40,
+      "successes": 37,
+      "failures": 3,
+      "success_rate": 0.925,
+      "error_categories": {
+        "unsupported_citation": 2,
+        "other_error": 1
+      },
+      "average_latency_successes": 1.7036,
+      "average_tokens_successes": 2325.8919,
+      "total_reported_tokens_successes": 86058,
+      "executed_actions": {}
+    },
+    "deterministic_langgraph": {
+      "attempts": 40,
+      "successes": 40,
+      "failures": 0,
+      "success_rate": 1.0,
+      "error_categories": {},
+      "average_latency_successes": 1.547,
+      "average_tokens_successes": 1897.275,
+      "total_reported_tokens_successes": 75891,
+      "executed_actions": {}
+    },
+    "llm_langgraph": {
+      "attempts": 40,
+      "successes": 39,
+      "failures": 1,
+      "success_rate": 0.975,
+      "error_categories": {
+        "unsupported_citation": 1
+      },
+      "average_latency_successes": 2.9315,
+      "average_tokens_successes": 4548.9487,
+      "total_reported_tokens_successes": 177409,
+      "executed_actions": {
+        "search": 4,
+        "expand": 26,
+        "answer": 7,
+        "abstain": 2
+      }
+    }
+  },
+  "paired_metrics": {
+    "naive": {
+      "paired_samples": 35,
+      "citation_f1": 0.6134,
+      "citation_precision": 0.5543,
+      "citation_recall": 0.7742,
+      "average_latency_seconds": 1.6016,
+      "average_total_tokens": 1839.5143,
+      "total_tokens": 64383,
+      "abstention_accuracy": 0.9429,
+      "llm_assessor_actions": {
+        "answer": 0,
+        "expand": 0,
+        "search": 0,
+        "abstain": 0
+      }
+    },
+    "expanded": {
+      "paired_samples": 35,
+      "citation_f1": 0.7629,
+      "citation_precision": 0.7452,
+      "citation_recall": 0.8387,
+      "average_latency_seconds": 1.7197,
+      "average_total_tokens": 2350.0857,
+      "total_tokens": 82253,
+      "abstention_accuracy": 1.0,
+      "llm_assessor_actions": {
+        "answer": 0,
+        "expand": 0,
+        "search": 0,
+        "abstain": 0
+      }
+    },
+    "deterministic_langgraph": {
+      "paired_samples": 35,
+      "citation_f1": 0.632,
+      "citation_precision": 0.578,
+      "citation_recall": 0.7742,
+      "average_latency_seconds": 1.5318,
+      "average_total_tokens": 1914.0571,
+      "total_tokens": 66992,
+      "abstention_accuracy": 0.9429,
+      "llm_assessor_actions": {
+        "answer": 0,
+        "expand": 0,
+        "search": 0,
+        "abstain": 0
+      }
+    },
+    "llm_langgraph": {
+      "paired_samples": 35,
+      "citation_f1": 0.7932,
+      "citation_precision": 0.7527,
+      "citation_recall": 0.9032,
+      "average_latency_seconds": 2.9171,
+      "average_total_tokens": 4570.7429,
+      "total_tokens": 159976,
+      "abstention_accuracy": 1.0,
+      "llm_assessor_actions": {
+        "answer": 5,
+        "expand": 24,
+        "search": 4,
+        "abstain": 2
+      }
+    }
+  },
+  "failed_executions": [
+    {
+      "question_id": "Q027",
+      "strategy": "expanded",
+      "category": "unsupported_citation",
+      "error": "ValueError: Article 49 was not present in retrieved evidence"
+    },
+    {
+      "question_id": "Q031",
+      "strategy": "naive",
+      "category": "unsupported_citation",
+      "error": "ValueError: Article 56 was not present in retrieved evidence"
+    },
+    {
+      "question_id": "Q032",
+      "strategy": "expanded",
+      "category": "unsupported_citation",
+      "error": "ValueError: Article 56 was not present in retrieved evidence"
+    },
+    {
+      "question_id": "Q032",
+      "strategy": "llm_langgraph",
+      "category": "unsupported_citation",
+      "error": "ValueError: Article 56 was not present in retrieved evidence"
+    },
+    {
+      "question_id": "Q047",
+      "strategy": "naive",
+      "category": "unsupported_citation",
+      "error": "ValueError: Article 66 was not present in retrieved evidence"
+    },
+    {
+      "question_id": "Q048",
+      "strategy": "expanded",
+      "category": "other_error",
+      "error": "ValueError: Abstained responses must not include citations"
+    }
+  ]
+}
