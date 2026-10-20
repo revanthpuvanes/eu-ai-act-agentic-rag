@@ -36,3 +36,11 @@ evals/runs/
 .vscode/
 .idea/
 .DS_Store
+
+# Generated semantic embedding cache
+data/cache/
+
+# Local backup files
+*.backup
+*.bak
+*.orig
