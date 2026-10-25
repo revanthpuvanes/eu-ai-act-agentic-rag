@@ -58,6 +58,7 @@ export default function Home() {
   const [steps, setSteps] = useState<Step[]>([]);
   const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
+  const [waitingForCloudRun, setWaitingForCloudRun] = useState(false);
   const [error, setError] = useState("");
 
   async function investigate(value?: string) {
@@ -70,6 +71,7 @@ export default function Home() {
     setResult(null);
     setError("");
     setLoading(true);
+    setWaitingForCloudRun(true);
 
     try {
       const response = await fetch(`${API}/ask/stream`, {
@@ -89,6 +91,8 @@ export default function Home() {
       if (!response.body) {
         throw new Error("Streaming is unavailable.");
       }
+
+      setWaitingForCloudRun(false);
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -152,11 +156,41 @@ export default function Home() {
       );
     } finally {
       setLoading(false);
+      setWaitingForCloudRun(false);
     }
   }
 
   return (
     <main className="min-h-screen bg-[#080d19] text-slate-100">
+      {waitingForCloudRun && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 left-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 rounded-2xl border border-blue-500/30 bg-[#111b30] p-5 text-left shadow-2xl shadow-black/50"
+        >
+          <div className="flex items-start gap-3">
+            <LoaderCircle
+              size={22}
+              className="mt-0.5 shrink-0 animate-spin text-blue-400"
+            />
+            <div>
+              <p className="font-semibold text-white">
+                Initializing AI Research Engine
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                Our LangGraph agent runs on Google Cloud Run with
+                automatic scale-to-zero to optimize cloud costs.
+                After inactivity, the first investigation may take
+                15–25 seconds while the container starts and AI
+                models load.
+              </p>
+              <p className="mt-2 text-xs text-blue-300">
+                Subsequent investigations are typically faster.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mx-auto max-w-6xl px-5 pb-20">
         <header className="flex items-center justify-between border-b border-white/10 py-6">
           <div className="flex items-center gap-3">
