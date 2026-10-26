@@ -24,6 +24,52 @@ The application exposes this process through a live research interface with stre
 
 ---
 
+## 📊 Four RAG Architectures. One Benchmark. A Surprising Trade-off.
+
+**40 held-out questions · 160 attempted executions · 35 complete paired questions**
+
+Rather than assuming agentic RAG always outperforms simpler approaches, this project compares four architectures on the same regulatory research benchmark.
+
+### Benchmark Results
+
+| Architecture | Citation F1 ↑ | Execution success ↑ | Mean latency ↓ | Mean tokens ↓ |
+|---|---:|---:|---:|---:|
+| Naive RAG | 0.6134 | 95.0% | 1.602 s | 1,838 |
+| Expanded RAG (no agent) | 0.7629 | 92.5% | 1.720 s | 2,326 |
+| Deterministic LangGraph | 0.6320 | **100.0%** | **1.532 s** | 1,897 |
+| LLM-driven LangGraph | **0.7932** | 97.5% | 2.917 s | 4,549 |
+
+*Citation F1 is calculated on the 35-question complete paired subset. Execution success covers all attempted questions. Latency and token figures are reported means, not guaranteed production response times.*
+
+### 🔍 Key Finding: Context Expansion Matters More Than Agentic Complexity
+
+Expanding the retrieved article context improves citation F1 from **0.6134 to 0.7629**, without requiring an agent.
+
+LLM-driven LangGraph achieves the highest reported citation F1 (**0.7932**), but its additional improvement over expanded RAG is only **0.0303**, while using approximately **96% more tokens** and taking approximately **70% longer**.
+
+**The engineering lesson:** More agentic complexity is not automatically better. The right architecture depends on the trade-off between citation quality, latency, reliability, and inference cost.
+
+### Evaluation Methodology and Caveats
+
+- Four architectures were evaluated against the same 40-question held-out benchmark.
+- The benchmark contains 160 attempted executions.
+- Citation F1 comparisons use 35 questions with complete paired results.
+- Execution success rates include failed attempts.
+- Citation F1 measures article-reference quality, **not semantic answer correctness**.
+- The observed 0.0303 advantage of LLM-driven LangGraph over expanded RAG has not been established as statistically significant.
+- The results describe this dataset and configuration; they are not universal claims about RAG architectures.
+
+**Reproducibility artifacts:**
+
+- [`scripts/benchmark_four_strategies.py`](scripts/benchmark_four_strategies.py)
+- [`scripts/final_benchmark_report.py`](scripts/final_benchmark_report.py)
+- [`evals/results/four_way_test_20261020T231531Z.jsonl`](evals/results/four_way_test_20261020T231531Z.jsonl)
+- [`evals/results/four_way_test_20261020T231531Z.final_report.json`](evals/results/four_way_test_20261020T231531Z.final_report.json)
+
+The live application includes an interactive benchmark dashboard for comparing citation F1, execution success, latency, and token usage.
+
+---
+
 ## What Makes This Project Different?
 
 - **Agentic retrieval:** A LangGraph workflow evaluates evidence before generating an answer.
@@ -324,24 +370,21 @@ The frontend will send research requests to your local FastAPI backend.
 
 ## Evaluation and Observability
 
-The project includes an evaluation-oriented design with a distinction between a basic retrieval pipeline and an agentic workflow.
+### Recorded Benchmark
 
-The intended evaluation dimensions include:
+The four-strategy benchmark results, methodology, and limitations are documented near the top of this README.
 
-- Answer correctness
-- Citation accuracy
-- Retrieval hit rate
-- End-to-end latency
-- Token usage and cost
-- Robustness against prompt injection
+The evaluation implementation also tracks execution failures and distinguishes reliability across all attempts from citation metrics on complete paired questions.
 
-**Important:** These metrics should only be reported using reproducible, recorded evaluation runs. This README does not claim unverified benchmark improvements.
+### Security Evaluation
+
+The repository includes prompt-injection and attack-exposure evaluation scripts and recorded test artifacts.
+
+These experiments are separate from the four-strategy citation benchmark. Their presence does not imply comprehensive prompt-injection resistance.
 
 ### Langfuse
 
-Langfuse is integrated into the backend to support execution tracing and observability.
-
-This helps inspect how research requests move through the agent workflow and investigate execution behavior.
+Langfuse provides backend execution tracing and observability for inspecting the research workflow and diagnosing agent behavior.
 
 ---
 
