@@ -127,10 +127,6 @@ export default function BenchmarkDashboard() {
     <section className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-[#101827]">
       <div className="flex w-full items-center justify-between gap-4 p-6">
         <div>
-          <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-400">
-            <FlaskConical size={15} />
-            Engineering evaluation
-          </div>
           <h2 className="text-xl font-bold">
             Four-strategy benchmark
           </h2>

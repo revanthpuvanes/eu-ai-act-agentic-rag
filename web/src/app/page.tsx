@@ -3,7 +3,7 @@
 import { useState } from "react";
 import LiveAgentGraph from "@/components/LiveAgentGraph";
 import BenchmarkDashboard from "@/components/BenchmarkDashboard";
-import EngineeringStory from "@/components/EngineeringStory";
+import ResearchFindings from "@/components/ResearchFindings";
 import EvidenceInspector, { type EvidencePassage } from "@/components/EvidenceInspector";
 import {
   Activity,
@@ -496,9 +496,11 @@ export default function Home() {
           </div>
         </div>
 
-        <BenchmarkDashboard />
+        
 
-        <EngineeringStory />
+        <ResearchFindings />
+        <div className="mt-8 flex flex-col gap-6 rounded-2xl border border-blue-500/25 bg-[#0b172b] p-8 md:flex-row md:items-center md:justify-between"><div><h2 className="text-xl font-bold text-white">Explore the implementation.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-blue-300/80">Inspect the retrieval pipeline, LangGraph routing, evaluation scripts, and official legal source behind this live demonstration.</p></div><div className="flex shrink-0 flex-wrap gap-3"><a href="https://github.com/revanthpuvanes/eu-ai-act-agentic-rag" target="_blank" rel="noopener noreferrer" className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">⌘ GitHub repository ↗</a><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" target="_blank" rel="noopener noreferrer" className="rounded-lg border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">↗ Official EU AI Act</a></div></div>
+
 
         <footer className="mt-16 border-t border-white/10 pt-6 text-center text-xs text-slate-500">
           EU AI Act Intelligence Lab · LangGraph · Mistral · FastAPI · Next.js
