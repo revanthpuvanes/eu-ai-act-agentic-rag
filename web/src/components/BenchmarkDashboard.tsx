@@ -329,7 +329,7 @@ export default function BenchmarkDashboard() {
             </h4>
 
             <p className="text-xs leading-6 text-slate-400">
-              Citation F1 is calculated on 35 questions with
+              Citation F1 is calculated on 31 answerable questions within the 35 questions with
               complete paired executions across all four
               strategies. Execution success is calculated over
               40 attempted questions per strategy. Latency and

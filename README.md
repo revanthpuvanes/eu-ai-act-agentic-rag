@@ -39,25 +39,83 @@ Rather than assuming agentic RAG always outperforms simpler approaches, this pro
 | Deterministic LangGraph | 0.6320 | **100.0%** | **1.532 s** | 1,897 |
 | LLM-driven LangGraph | **0.7932** | 97.5% | 2.917 s | 4,549 |
 
-*Citation F1 is calculated on the 35-question complete paired subset. Execution success covers all attempted questions. Latency and token figures are reported means, not guaranteed production response times.*
+*Citation F1 is calculated on 31 answerable questions within the 35-question complete paired subset. Execution success covers all attempted questions. Latency and token figures are reported means, not guaranteed production response times.*
 
-### 🔍 Key Finding: Context Expansion Matters More Than Agentic Complexity
+### 🔍 Key Finding: In This Benchmark, Context Expansion Mattered More Than Agent Routing
 
-Expanding the retrieved article context improves citation F1 from **0.6134 to 0.7629**, without requiring an agent.
+On the **31 answerable questions with successful executions across all four architectures**, expanding article context improved mean citation F1 by **+0.1495** over naive RAG.
 
-LLM-driven LangGraph achieves the highest reported citation F1 (**0.7932**), but its additional improvement over expanded RAG is only **0.0303**, while using approximately **96% more tokens** and taking approximately **70% longer**.
+A paired bootstrap analysis (20,000 resamples, fixed seed 42) estimated a **95% confidence interval of [+0.0602, +0.2538]**, with 12 question-level wins, 2 losses, and 17 ties.
 
-**The engineering lesson:** More agentic complexity is not automatically better. The right architecture depends on the trade-off between citation quality, latency, reliability, and inference cost.
+LLM-driven LangGraph achieved the highest citation F1 (**0.7932**), but its incremental improvement over expanded RAG was only **+0.0303**, with a **95% bootstrap confidence interval of [-0.0385, +0.1172]** (5 wins, 4 losses, 22 ties).
 
-### Evaluation Methodology and Caveats
+Because that interval includes zero, the benchmark does **not establish a statistically reliable citation F1 improvement** from LLM-driven routing over simpler context expansion.
 
-- Four architectures were evaluated against the same 40-question held-out benchmark.
-- The benchmark contains 160 attempted executions.
-- Citation F1 comparisons use 35 questions with complete paired results.
-- Execution success rates include failed attempts.
-- Citation F1 measures article-reference quality, **not semantic answer correctness**.
-- The observed 0.0303 advantage of LLM-driven LangGraph over expanded RAG has not been established as statistically significant.
-- The results describe this dataset and configuration; they are not universal claims about RAG architectures.
+The LLM-driven architecture also used approximately **96% more tokens** and had approximately **70% higher latency** than expanded RAG on the paired comparison.
+
+**Engineering takeaway:** Context expansion produced the larger observed citation-quality improvement. The additional value of LLM-driven routing was uncertain relative to its token and latency overhead.
+
+### Statistical Comparison
+
+| Paired comparison | Mean F1 difference | 95% bootstrap CI | Wins | Losses | Ties |
+|---|---:|---|---:|---:|---:|
+| Naive → Expanded | +0.1495 | [+0.0602, +0.2538] | 12 | 2 | 17 |
+| Expanded → LLM-driven | +0.0303 | [-0.0385, +0.1172] | 5 | 4 | 22 |
+| Naive → LLM-driven | +0.1798 | [+0.0776, +0.2978] | 13 | 2 | 16 |
+
+Confidence intervals use paired bootstrap resampling over the 31 answerable, complete-pair questions. These intervals describe sampling uncertainty in mean question-level citation F1 differences; they do not establish causality or universal superiority.
+
+### Reliability and Failure-Adjusted Citation Quality
+
+| Architecture | Successful executions | Citation F1 on 31 complete answerable pairs | Failure-adjusted F1 on 36 answerable questions |
+|---|---:|---:|---:|
+| Naive RAG | 38/40 | 0.6134 | 0.5473 |
+| Expanded RAG | 37/40 | 0.7629 | 0.7069 |
+| Deterministic LangGraph | **40/40** | 0.6320 | 0.6201 |
+| LLM-driven LangGraph | 39/40 | **0.7932** | **0.7442** |
+
+Failure-adjusted F1 assigns zero citation F1 to failed executions on answerable questions. Unanswerable questions are excluded from citation F1 and evaluated separately through abstention accuracy.
+
+Across 160 attempted executions, six failed validation:
+
+- **Five unsupported-citation errors:** Generated citations referenced articles absent from the retrieved evidence.
+- **One invalid-abstention error:** An abstaining response incorrectly included citations.
+
+No recorded benchmark failures were classified as timeouts or rate-limit errors.
+
+### Agent Routing Behavior
+
+Across its 39 successful executions, the LLM-driven LangGraph agent selected:
+
+| Decision | Executions |
+|---|---:|
+| Expand article context | 26 |
+| Answer directly | 7 |
+| Search again | 4 |
+| Abstain | 2 |
+
+Context expansion was selected in **26/39 successful executions (66.7%)**. This describes agent behavior but does not independently prove that expansion caused the observed citation-quality improvement.
+
+### Evaluation Methodology and Limitations
+
+- **Dataset:** 40 held-out questions and 160 attempted executions across four architectures.
+- **Complete pairs:** 35 questions completed successfully under every architecture.
+- **Citation-quality subset:** 31 answerable questions within those 35 complete pairs.
+- **Unanswerable questions:** Four complete-pair questions had no gold article references and were evaluated separately for abstention behavior.
+- **Abstention accuracy:** Naive RAG 94.3%; expanded RAG 100%; deterministic LangGraph 94.3%; LLM-driven LangGraph 100%, measured on 35 complete pairs.
+- **Metric granularity:** Citation F1 evaluates article-level references. Expanding complete articles can improve article-reference coverage without necessarily improving factual answer correctness.
+- **Answer correctness:** Semantic answer correctness was not evaluated in this benchmark.
+- **Reliability:** Execution success rates include all 40 attempted questions per architecture.
+- **Latency:** Reported benchmark latency should not be interpreted as Cloud Run cold-start-inclusive end-user latency.
+- **Statistical interpretation:** Bootstrap confidence intervals quantify uncertainty in paired mean citation F1 differences; they are not causal estimates.
+
+### Reproduce the Held-Out Benchmark
+
+From the repository root, with dependencies installed and `MISTRAL_API_KEY` configured:
+
+    python -m scripts.benchmark_four_strategies --split test --limit 40
+
+**Cost warning:** Running this command makes paid Mistral API calls. Rerunning is optional.
 
 **Reproducibility artifacts:**
 
@@ -411,7 +469,7 @@ This application is a **technical research demonstration**, not a substitute for
 - The current indexed corpus does not guarantee complete coverage of annexes or later legal changes.
 - Evidence assessment and context expansion improve the research workflow but do not guarantee factual correctness.
 - Cloud Run scale-to-zero introduces cold-start latency.
-- The public demo has infrastructure limits but is not guaranteed to have comprehensive abuse protection or a hard API spending cap.
+- **Cost controls:** Cloud Run scales to zero and has infrastructure limits. A €5 monthly Google Cloud budget alert is configured, but it is **not a hard spending cap** and does not automatically stop charges. Public API abuse protection is not comprehensive.
 
 For authoritative interpretation, consult the official legal text and qualified legal professionals.
 
@@ -420,8 +478,6 @@ For authoritative interpretation, consult the official legal text and qualified 
 ## Future Improvements
 
 - Extend retrieval coverage to annexes and related legal materials.
-- Build a manually verified evaluation dataset.
-- Compare baseline RAG and agentic RAG using reproducible metrics.
 - Add stronger public API abuse controls and spending safeguards.
 - Improve retrieval and answer quality on cross-article questions.
 - Track changes to the regulation and refresh indexed evidence.
