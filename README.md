@@ -2,6 +2,11 @@
 
 ### Evidence-grounded regulatory research with Agentic RAG
 
+<p align="center">
+  <img src="docs/images/screenshot.png" alt="EU AI Act Intelligence Lab Screenshot" width="100%">
+</p>
+
+
 A deployed AI research application that investigates the **EU AI Act (Regulation (EU) 2024/1689)** using a stateful **LangGraph agent**, hybrid retrieval, and **Mistral**.
 
 Instead of returning an answer from a single retrieval pass, the agent evaluates the available evidence, decides whether additional context is needed, and generates an answer grounded in the regulation.
